@@ -407,3 +407,104 @@ html, body {
 .text-muted {
     color: var(--color-text-muted);
 }
+
+/* ---------- 계정과목 참고 페이지 ---------- */
+.account-code-table {
+    min-width: 360px;
+}
+
+.acc-col-name {
+    text-align: left !important;
+    width: auto;
+}
+
+.acc-col-count {
+    width: 80px;
+}
+
+.acc-col-toggle {
+    width: 40px;
+}
+
+.account-code-row {
+    cursor: pointer;
+    user-select: none;
+    transition: background .12s ease;
+}
+
+.account-code-row:hover .acc-name-cell {
+    color: var(--color-primary);
+}
+
+.account-code-row td {
+    transition: background .12s ease;
+}
+
+.account-code-row.open td {
+    background: #e8edfc;
+    color: var(--color-primary-dark);
+    font-weight: 700;
+}
+
+.acc-name-cell {
+    text-align: left;
+    font-weight: 600;
+}
+
+.acc-count-cell {
+    color: var(--color-text-muted);
+    font-size: 12px;
+}
+
+.acc-toggle-cell {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    transition: transform .2s ease;
+}
+
+.account-code-detail > td {
+    padding: 0 !important;
+    border-top: none;
+}
+
+.account-sub-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: #f7f9ff;
+    min-width: 0;
+}
+
+.account-sub-table th,
+.account-sub-table td {
+    border: 1px solid #d4dcea;
+    padding: 7px 14px;
+    text-align: left;
+    vertical-align: middle;
+    font-weight: normal;
+    position: static;
+    background: none;
+}
+
+.account-sub-table thead th {
+    background: #dde5f8;
+    font-weight: 700;
+    position: static;
+    top: auto;
+}
+
+.account-sub-table tbody tr:hover td {
+    background: #eef3ff;
+}
+
+.account-sub-table td:first-child {
+    width: 160px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--color-text);
+    background: #eef2fa;
+}
+
+.account-sub-table td:last-child {
+    color: var(--color-text-muted);
+}

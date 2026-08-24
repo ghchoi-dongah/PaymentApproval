@@ -442,6 +442,46 @@
     exportExcelBtn.addEventListener('click', exportToExcel);
 
     // ---------------------------------------------------------------
+    // 계정과목 참고 페이지
+    // ---------------------------------------------------------------
+    var ACCOUNT_CODE_DETAILS = DATA.accountCodeDetails || [];
+
+    function initAccountCodePage() {
+        var tbody = document.getElementById('accountCodeTableBody');
+        if (!tbody || tbody.dataset.initialized) return;
+        tbody.dataset.initialized = '1';
+
+        var html = '';
+        ACCOUNT_CODE_DETAILS.forEach(function (group, idx) {
+            var itemCount = group.items.length;
+            html += '<tr class="account-code-row" data-idx="' + idx + '">';
+            html += '<td class="acc-name-cell">' + escapeHtml(group.account) + '</td>';
+            html += '<td class="acc-count-cell">' + itemCount + '개</td>';
+            html += '<td class="acc-toggle-cell">▼</td>';
+            html += '</tr>';
+            html += '<tr class="account-code-detail" data-idx="' + idx + '" style="display:none;">';
+            html += '<td colspan="3"><table class="account-sub-table">';
+            html += '<thead><tr><th>항목</th><th>상세내역</th></tr></thead><tbody>';
+            group.items.forEach(function (d) {
+                html += '<tr><td>' + escapeHtml(d.item) + '</td><td>' + escapeHtml(d.desc) + '</td></tr>';
+            });
+            html += '</tbody></table></td></tr>';
+        });
+        tbody.innerHTML = html;
+
+        tbody.addEventListener('click', function (e) {
+            var row = e.target.closest('.account-code-row');
+            if (!row) return;
+            var idx = row.getAttribute('data-idx');
+            var detailRow = tbody.querySelector('.account-code-detail[data-idx="' + idx + '"]');
+            var isOpen = detailRow.style.display !== 'none';
+            detailRow.style.display = isOpen ? 'none' : '';
+            row.querySelector('.acc-toggle-cell').textContent = isOpen ? '▼' : '▲';
+            row.classList.toggle('open', !isOpen);
+        });
+    }
+
+    // ---------------------------------------------------------------
     // 초기화
     // ---------------------------------------------------------------
     function init() {
@@ -449,6 +489,7 @@
         voucherDeptSelect.innerHTML = buildOptions(DEPARTMENT_LIST, '개발팀', null);
 
         addRow(); // 최소 1개 행으로 시작
+        initAccountCodePage();
     }
 
     init();

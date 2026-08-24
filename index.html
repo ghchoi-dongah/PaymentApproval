@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>지불승인서 자동서식</title>
+    <title>지불승인서</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%84%3C/text%3E%3C/svg%3E"/>
     <link rel="stylesheet" href="css/style.css"/>
 </head>
@@ -16,7 +16,7 @@
         <button id="hamburgerBtn" class="hamburger-btn" type="button" aria-label="메뉴 열기/닫기" aria-expanded="true">
             <span></span><span></span><span></span>
         </button>
-        <h1 class="app-title">지불승인서 자동서식</h1>
+        <h1 class="app-title">지불승인서</h1>
     </header>
 
     <div class="app-body">
@@ -27,9 +27,12 @@
                 <ul class="menu-list">
                     <li class="menu-item active" data-target="page-payment-approval">
                         <span class="menu-icon">📄</span>
-                        <span class="menu-label">지불승인서</span>
+                        <span class="menu-label">지불승인서 자동서식</span>
                     </li>
-                    <!-- 향후 메뉴 추가 시 이 위치에 <li class="menu-item" data-target="page-xxx"> 형태로 추가 -->
+                    <li class="menu-item" data-target="page-account-codes">
+                        <span class="menu-icon">📋</span>
+                        <span class="menu-label">계정과목</span>
+                    </li>
                 </ul>
             </nav>
         </aside>
@@ -151,6 +154,28 @@
                     </div>
                 </section>
 
+            </section>
+
+            <!-- 계정과목 참고표 페이지 -->
+            <section id="page-account-codes" class="menu-page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>계정과목 참고표</h2>
+                    </div>
+                    <p class="hint">계정과목 행을 클릭하면 항목별 상세내역을 확인할 수 있습니다.</p>
+                    <div class="table-scroll" style="margin-top:12px;">
+                        <table class="data-table account-code-table">
+                            <thead>
+                            <tr>
+                                <th class="acc-col-name">계정과목</th>
+                                <th class="acc-col-count">항목 수</th>
+                                <th class="acc-col-toggle"></th>
+                            </tr>
+                            </thead>
+                            <tbody id="accountCodeTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
             </section>
 
         </main>
