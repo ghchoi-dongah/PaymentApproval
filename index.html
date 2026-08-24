@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>지불승인서 자동서식</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%84%3C/text%3E%3C/svg%3E"/>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<div class="app-shell">
+
+    <!-- 상단바 -->
+    <header class="topbar">
+        <button id="hamburgerBtn" class="hamburger-btn" type="button" aria-label="메뉴 열기/닫기" aria-expanded="true">
+            <span></span><span></span><span></span>
+        </button>
+        <h1 class="app-title">지불승인서 자동서식</h1>
+    </header>
+
+    <div class="app-body">
+
+        <!-- 좌측 메뉴 -->
+        <aside id="sidebar" class="sidebar">
+            <nav>
+                <ul class="menu-list">
+                    <li class="menu-item active" data-target="page-payment-approval">
+                        <span class="menu-icon">📄</span>
+                        <span class="menu-label">지불승인서</span>
+                    </li>
+                    <!-- 향후 메뉴 추가 시 이 위치에 <li class="menu-item" data-target="page-xxx"> 형태로 추가 -->
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 메인 컨텐츠 -->
+        <main id="content" class="content">
+
+            <section id="page-payment-approval" class="menu-page active">
+
+                <!-- 지출내역서 -->
+                <section class="card">
+                    <div class="card-header">
+                        <h2>지출내역서 <span class="sub">(부가세X)</span></h2>
+                        <div class="toolbar">
+                            <button id="addRowBtn" class="btn btn-primary" type="button">+ 행 추가</button>
+                            <button id="exportExcelBtn" class="btn btn-outline" type="button">⬇ 엑셀 다운로드</button>
+                        </div>
+                    </div>
+                    <div class="table-scroll">
+                        <table class="data-table expense-table" id="expenseTable">
+                            <thead>
+                            <tr>
+                                <th class="col-no">NO.</th>
+                                <th class="col-date">지출일</th>
+                                <th class="col-account">계정과목</th>
+                                <th class="col-item">항목</th>
+                                <th class="col-detail">상세내역</th>
+                                <th class="col-amount">금액 (KRW)</th>
+                                <th class="col-action"></th>
+                            </tr>
+                            </thead>
+                            <tbody id="expenseTableBody">
+                            <!-- js/app.js 에서 렌더링 -->
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="5" class="total-label">합계</td>
+                                <td id="grandTotal" class="total-amount">₩0</td>
+                                <td></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                     <p class="hint">※ 표에는 최소 1개의 행이 있어야 합니다. 지출일은 달력에서 선택하면 됩니다.<br> 
+                    ※ 지급수수료는 공급가액/세액 구분하여 지불승인서를 작성하셔야 합니다.<br>
+                    ※ 10만 원 이상 건은 공급가액/부가세 구분하여 지불승인서를 작성하셔야 합니다.<br>
+                    ※ 소모품비, 지급수수료는 ERP에 거래처 등록이 완료되어야 지불승인서 처리가 가능합니다.
+                    </p>
+                </section>
+
+                <!-- 계정과목별 / 항목별 금액 -->
+                <section class="card">
+                    <h2>계정과목별 · 항목별 금액</h2>
+                    <div class="summary-grid">
+                        <div class="summary-block">
+                            <h3>계정과목별 금액</h3>
+                            <div class="table-scroll">
+                                <table class="data-table summary-table" id="accountSummaryTable">
+                                    <thead><tr><th>계정과목</th><th>금액</th></tr></thead>
+                                    <tbody id="accountSummaryBody"></tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td class="total-label">합계</td>
+                                        <td id="accountSummaryTotal" class="total-amount">₩0</td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="summary-block">
+                            <h3>항목별 금액</h3>
+                            <div class="table-scroll table-scroll--tall">
+                                <table class="data-table summary-table" id="itemSummaryTable">
+                                    <thead><tr><th>항목</th><th>금액</th></tr></thead>
+                                    <tbody id="itemSummaryBody"></tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td class="total-label">합계</td>
+                                        <td id="itemSummaryTotal" class="total-amount">₩0</td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 회계전표 -->
+                <section class="card">
+                    <h2>▶ 회계전표</h2>
+                    <div class="voucher-controls">
+                        <div class="field">
+                            <label for="voucherGubun">구분:</label>
+                            <select id="voucherGubun"></select>
+                        </div>
+                        <div class="field">
+                            <label for="voucherDept">부서:</label>
+                            <select id="voucherDept"></select>
+                        </div>
+                        <div class="field">
+                            <span id="voucherTotalKorean" class="voucher-korean-total">금액(원) : -</span>
+                        </div>
+                    </div>
+                    <div class="table-scroll">
+                        <table class="data-table voucher-table" id="voucherTable">
+                            <thead>
+                            <tr>
+                                <th>과목(항목)</th>
+                                <th>항목(거래처)</th>
+                                <th>차변금액</th>
+                                <th>과목(항목)</th>
+                                <th>항목(거래처)</th>
+                                <th>대변금액</th>
+                            </tr>
+                            </thead>
+                            <tbody id="voucherTableBody"></tbody>
+                            <tfoot id="voucherTableFoot"></tfoot>
+                        </table>
+                    </div>
+                </section>
+
+            </section>
+
+        </main>
+    </div>
+</div>
+
+<!-- 엑셀 다운로드 생성을 위한 SheetJS (전부 브라우저에서 처리, 서버 불필요) -->
+<!-- 사내망/방화벽 환경에서도 동작하도록 CDN 대신 저장소에 포함해 로컬에서 로드합니다 -->
+<script src="js/vendor/xlsx.full.min.js"></script>
+<script src="js/constants.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
